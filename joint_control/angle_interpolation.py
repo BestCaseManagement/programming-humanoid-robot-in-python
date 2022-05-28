@@ -21,7 +21,7 @@
 
 
 from pid import PIDAgent
-from keyframes import hello
+from keyframes.hello import hello
 
 
 class AngleInterpolationAgent(PIDAgent):
@@ -40,9 +40,18 @@ class AngleInterpolationAgent(PIDAgent):
 
     def angle_interpolation(self, keyframes, perception):
         target_joints = {}
-        # YOUR CODE HERE
+        (names, times, keys) = keyframes
+        time_delta = perception.time - self.start_time
+
+        for name in names:
+            for time in times.get(name):
+                target_joints[name] = self.bezier_interpolation(time)
 
         return target_joints
+
+    def bezier_interpolation(self, time):
+        # TODO
+        pass
 
 if __name__ == '__main__':
     agent = AngleInterpolationAgent()
